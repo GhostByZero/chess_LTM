@@ -18,6 +18,9 @@ import ui.menu.PauseMenu;
 
 import ui.panel.ChatPanel;
 import ui.panel.GameControlPanel;
+<<<<<<< HEAD
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
+=======
 >>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
 import ui.panel.MoveHistoryPanel;
 import ui.panel.PlayerInfoPanel;
@@ -100,6 +103,7 @@ public class GameWindow extends JFrame {
     private StatusPanel      statusPanel;
     private TimerPanel       timerPanel;
     private GameControlPanel gameControlPanel;
+<<<<<<< HEAD
 
     /*
      * Chat: input ở LEFT, hiển thị tin nhắn ở CENTER bên dưới bàn cờ
@@ -107,6 +111,8 @@ public class GameWindow extends JFrame {
     private JTextField chatInputField;
     private JButton    chatSendButton;
     private JTextArea  chatDisplayArea;
+=======
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
 
     /*
      * =========================
@@ -879,6 +885,7 @@ public class GameWindow extends JFrame {
     public String            getMyColor()          { return myColor;          }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     // Chat getters — dùng bởi GameWindowController
     public JTextField getChatInputField()  { return chatInputField;  }
     public JButton    getChatSendButton()  { return chatSendButton;  }
@@ -889,6 +896,21 @@ public class GameWindow extends JFrame {
     public JButton getUndoButton() {
         return undoButton;
     }
+=======
+    public GameController    getGameController()    { return gameController;    }
+    public GameManager       getGameManager()        { return gameManager;       }
+    public BoardPanel        getBoardPanel()         { return boardPanel;        }
+    public ChatPanel         getChatPanel()          { return chatPanel;         }
+    public MoveHistoryPanel  getMoveHistoryPanel()   { return moveHistoryPanel;  }
+    public PlayerInfoPanel   getPlayerInfoPanel()    { return playerInfoPanel;   }
+    public StatusPanel       getStatusPanel()        { return statusPanel;       }
+    public TimerPanel        getTimerPanel()         { return timerPanel;        }
+    public GameControlPanel  getGameControlPanel()   { return gameControlPanel;  }
+    public GameTimer         getGameTimer()          { return gameTimer;         }
+    public PauseMenu         getPauseMenu()          { return pauseMenu;         }
+    public InputHandler      getInputHandler()       { return inputHandler;      }
+    public MainWindow        getMainWindow()         { return mainWindow;        }
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
 }
 =======
     public GameController    getGameController()    { return gameController;    }

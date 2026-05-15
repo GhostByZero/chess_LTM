@@ -7,6 +7,10 @@ import ui.theme.ColorTheme;
 import ui.theme.FontManager;
 import ui.theme.ThemeManager;
 
+import ui.theme.ColorTheme;
+import ui.theme.FontManager;
+import ui.theme.ThemeManager;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -24,6 +28,7 @@ public class PlayerInfoPanel extends JPanel {
     private final JLabel whiteStatus;
     private final JLabel blackStatus;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public PlayerInfoPanel(String myColor) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -64,6 +69,18 @@ public class PlayerInfoPanel extends JPanel {
         blackPlayerLabel = new JLabel("Black: Player 2");
         turnLabel        = new JLabel("Turn: WHITE");
 
+=======
+        setLayout(new GridLayout(3, 1));
+
+        setPreferredSize(new Dimension(250, 120));
+
+        ThemeManager.applyPanelTheme(this);
+
+        whitePlayerLabel = new JLabel("White: Player 1");
+        blackPlayerLabel = new JLabel("Black: Player 2");
+        turnLabel        = new JLabel("Turn: WHITE");
+
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
         ThemeManager.applyTextTheme(whitePlayerLabel);
         ThemeManager.applyTextTheme(blackPlayerLabel);
         ThemeManager.applyTextTheme(turnLabel);
@@ -79,6 +96,7 @@ public class PlayerInfoPanel extends JPanel {
 
     public void updateTurn(PieceColor color) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (color == PieceColor.WHITE) {
             whiteBadge.setVisible(true);
             blackBadge.setVisible(false);
@@ -93,12 +111,16 @@ public class PlayerInfoPanel extends JPanel {
 =======
         turnLabel.setText("Turn: " + color);
 >>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
+=======
+        turnLabel.setText("Turn: " + color);
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
     }
 
     // ==========================================
     // CÁC HÀM XÂY DỰNG GIAO DIỆN CON
     // ==========================================
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     private JLabel createNameLabel(String text) {
         JLabel lbl = new JLabel(text);
@@ -189,6 +211,14 @@ public class PlayerInfoPanel extends JPanel {
         sep.setBackground(new Color(58, 58, 58));
         sep.setMaximumSize(new Dimension(SIDE_WIDTH, 1));
         return sep;
+=======
+    public void setWhitePlayerName(String name) {
+        whitePlayerLabel.setText("White: " + name);
+    }
+
+    public void setBlackPlayerName(String name) {
+        blackPlayerLabel.setText("Black: " + name);
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
 =======
     public void setWhitePlayerName(String name) {
         whitePlayerLabel.setText("White: " + name);

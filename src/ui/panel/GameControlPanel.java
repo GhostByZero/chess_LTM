@@ -21,7 +21,11 @@ public class GameControlPanel extends JPanel {
 
         setLayout(new BorderLayout(0, 12));
 <<<<<<< HEAD
+<<<<<<< HEAD
         setBorder(new EmptyBorder(12, 10    , 12, 10));
+=======
+        setBorder(new EmptyBorder(12, 10, 12, 10));
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
 =======
         setBorder(new EmptyBorder(12, 10, 12, 10));
 >>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213

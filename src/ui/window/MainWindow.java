@@ -46,6 +46,7 @@ public class MainWindow extends JFrame {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         // 2. Khởi tạo riêng biệt từng nút
         playButton     = createButton("Play Multiplayer");
         playBotButton  = createButton("Play vs Computer");
@@ -63,10 +64,19 @@ public class MainWindow extends JFrame {
         settingsButton = createButton("Settings");
         exitButton     = createButton("Exit");
 
+=======
+        playButton     = createButton("Play Multiplayer");
+        settingsButton = createButton("Settings");
+        exitButton     = createButton("Exit");
+
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
         gbc.gridy = 0; mainPanel.add(titleLabel,    gbc);
         gbc.gridy = 1; mainPanel.add(playButton,    gbc);
         gbc.gridy = 2; mainPanel.add(settingsButton, gbc);
         gbc.gridy = 3; mainPanel.add(exitButton,    gbc);
+<<<<<<< HEAD
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
+=======
 >>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
 
         add(mainPanel, BorderLayout.CENTER);
@@ -81,7 +91,10 @@ public class MainWindow extends JFrame {
 
     public JButton getPlayButton()     { return playButton;     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     public JButton getPlayBotButton()  { return playBotButton;  } // Hết lỗi đỏ ở đây
+=======
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
     public JButton getSettingsButton() { return settingsButton; }
     public JButton getExitButton()     { return exitButton;     }
 }
