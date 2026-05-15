@@ -22,18 +22,9 @@ public class InputHandler {
     private final GameController gameController;
     private final SelectionManager selectionManager;
 
-    /*
-     * [FIX #1] Khong giu MoveGenerator rieng trong InputHandler.
-     * Lay truc tiep tu ChessEngine de dung cung instance da duoc
-     * khoi tao voi MoveManager -- dam bao isMoveLegal() simulate dung.
-     * Truoc: new MoveGenerator(board) -- constructor 1-arg dung MoveValidator
-     *        khong co MoveManager, nen khong loc duoc nuoc di tu chieu.
-     */
+    // THÊM MỚI: Biến lưu màu của người chơi để khóa màn hình
+    private PieceColor myColor = null;
 
-    /*
-     * Callback duoc goi sau moi nuoc di thanh cong.
-     * GameWindowController gan vao bang setOnMoveExecuted().
-     */
     private Runnable onMoveExecuted;
 
     public InputHandler(BoardPanel boardPanel, GameController gameController) {
@@ -42,37 +33,24 @@ public class InputHandler {
         this.selectionManager = new SelectionManager();
     }
 
-    /*
-     * =========================
-     * Callback setter
-     * =========================
-     */
+    // THÊM MỚI: Hàm để GameWindowController set màu cho ổ khóa
+    public void setMyColor(PieceColor color) {
+        this.myColor = color;
+    }
 
     public void setOnMoveExecuted(Runnable callback) {
         this.onMoveExecuted = callback;
     }
 
-    /*
-     * =========================
-     * Handle Cell Click
-     * =========================
-     */
-
     public void handleCellClick(Position clickedPosition) {
         Board board       = boardPanel.getBoard();
         Tile  clickedTile = board.getTile(clickedPosition);
 
-        /*
-         * Chua chon quan nao
-         */
         if (!selectionManager.hasSelection()) {
             trySelect(clickedPosition, clickedTile);
             return;
         }
 
-        /*
-         * Dang co quan duoc chon
-         */
         Position from     = selectionManager.getSelectedPosition();
         Tile     fromTile = board.getTile(from);
 
@@ -83,9 +61,6 @@ public class InputHandler {
 
         Piece selectedPiece = fromTile.getPiece();
 
-        /*
-         * Click vao quan cung mau -> chuyen selection sang quan moi
-         */
         if (clickedTile != null
                 && clickedTile.isOccupied()
                 && clickedTile.getPiece().getColor() == selectedPiece.getColor()) {
@@ -95,43 +70,18 @@ public class InputHandler {
             return;
         }
 
-        /*
-         * Click vao o khong nam trong danh sach nuoc di hop le -> reset
-         */
         if (!selectionManager.isHighlighted(clickedPosition)) {
             resetSelection();
             return;
         }
 
-        /*
-         * [FIX #2] Lay dung Move object (voi MoveType da duoc set boi MoveValidator)
-         * thay vi tao new Move(from, to, piece, MoveType.NORMAL).
-         *
-         * MoveValidator.isMoveLegal() mutate moveType tren Move object trong
-         * generateMoves() -- nen cac Move trong legalMoveMap da co dung:
-         *   CASTLING    -- neu la nuoc nhap thanh
-         *   EN_PASSANT  -- neu la nuoc bat qua duong
-         *   PROMOTION   -- neu la nuoc phong cap
-         *   CAPTURE     -- neu an quan thuong
-         *   NORMAL      -- nuoc di binh thuong
-         */
         Move move = selectionManager.getLegalMove(clickedPosition);
 
         if (move == null) {
-            /*
-             * Fallback phong thu: khong tim duoc Move object (khong nen xay ra
-             * vi isHighlighted() da check truoc), nhung reset cho an toan.
-             */
             resetSelection();
             return;
         }
 
-        /*
-         * [FIX #6] Neu la nuoc phong cap (PROMOTION), hoi nguoi choi muon
-         * phong thanh quan gi truoc khi gui move xuong backend.
-         * Backend doc move.getPromotionChoice() trong executePromotion().
-         * Default la "QUEEN" neu dong dialog ma khong chon.
-         */
         if (move.getMoveType() == MoveType.PROMOTION) {
             String choice = askPromotionChoice();
             move.setPromotionChoice(choice);
@@ -142,19 +92,10 @@ public class InputHandler {
         resetSelection();
         boardPanel.drawBoard();
 
-        /*
-         * Thong bao cho UI neu nuoc di thanh cong
-         */
         if (result != MoveResult.INVALID && onMoveExecuted != null) {
             onMoveExecuted.run();
         }
     }
-
-    /*
-     * =========================
-     * Try Select Piece
-     * =========================
-     */
 
     private void trySelect(Position position, Tile tile) {
         if (tile == null || !tile.isOccupied()) {
@@ -163,19 +104,10 @@ public class InputHandler {
 
         Piece piece = tile.getPiece();
 
-        /*
-         * Chi cho chon quan dung luot
-         */
         if (!isCorrectTurn(piece.getColor())) {
             return;
         }
 
-        /*
-         * [FIX #1] Lay MoveGenerator tu ChessEngine (da co MoveManager)
-         * thay vi khoi tao new MoveGenerator(board) rieng.
-         * Dam bao generateMoves() loc duoc nuoc di tu chieu va detect
-         * dung MoveType cho castling/en_passant/promotion.
-         */
         MoveGenerator moveGenerator = gameController
                 .getGameManager()
                 .getChessEngine()
@@ -192,10 +124,6 @@ public class InputHandler {
 
         selectionManager.clearHighlights();
 
-        /*
-         * [FIX #2] Highlight bang Move object (khong phai chi Position)
-         * de luu duoc MoveType vao legalMoveMap.
-         */
         for (Move move : legalMoves) {
             selectionManager.highlight(move);
         }
@@ -203,13 +131,13 @@ public class InputHandler {
         selectionManager.applyHighlights(boardPanel);
     }
 
-    /*
-     * =========================
-     * Turn Check
-     * =========================
-     */
-
     private boolean isCorrectTurn(PieceColor color) {
+        // ─── ĐÂY LÀ CHỐT CHẶN KHÓA QUYỀN ĐIỀU KHIỂN ───
+        // Nếu đang chơi online và bấm vào quân không phải màu của mình -> Cấm
+        if (this.myColor != null && color != this.myColor) {
+            return false;
+        }
+
         TurnState current = gameController
                 .getGameState()
                 .getCurrentTurn();
@@ -218,18 +146,6 @@ public class InputHandler {
                 || (color == PieceColor.BLACK && current == TurnState.BLACK_TURN);
     }
 
-    /*
-     * =========================
-     * Promotion Dialog
-     * [FIX #6]
-     * =========================
-     */
-
-    /**
-     * Hien thi dialog de nguoi choi chon quan phong cap.
-     * Tra ve ten quan (QUEEN/ROOK/BISHOP/KNIGHT).
-     * Neu nguoi choi dong dialog ma khong chon, mac dinh Queen.
-     */
     private String askPromotionChoice() {
         String[] options = {"Queen", "Rook", "Bishop", "Knight"};
         int choice = JOptionPane.showOptionDialog(
@@ -246,12 +162,6 @@ public class InputHandler {
         return options[choice].toUpperCase();
     }
 
-    /*
-     * =========================
-     * Reset Selection
-     * =========================
-     */
-
     private void resetSelection() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -263,12 +173,6 @@ public class InputHandler {
         selectionManager.clearHighlights();
         selectionManager.clearSelection();
     }
-
-    /*
-     * =========================
-     * Getter
-     * =========================
-     */
 
     public SelectionManager getSelectionManager() {
         return selectionManager;

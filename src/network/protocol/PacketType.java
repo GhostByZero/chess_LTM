@@ -1,4 +1,9 @@
 package network.protocol;
 
-public class PacketType {
+public enum PacketType {
+    MOVE,
+    CHAT,
+    DISCONNECT,
+    SURRENDER,
+    PING
 }

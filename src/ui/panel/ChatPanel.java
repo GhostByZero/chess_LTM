@@ -1,23 +1,27 @@
 package ui.panel;
 
+import ui.theme.ColorTheme;
+import ui.theme.FontManager;
+import ui.theme.ThemeManager;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ChatPanel extends JPanel {
 
-    private final JTextArea chatArea;
+    private final JTextArea  chatArea;
 
     private final JTextField messageField;
 
-    private final JButton sendButton;
+    private final JButton    sendButton;
 
     public ChatPanel() {
 
         setLayout(new BorderLayout());
 
-        setPreferredSize(
-                new Dimension(300, 0)
-        );
+        setPreferredSize(new Dimension(300, 0));
+
+        ThemeManager.applyPanelTheme(this);
 
         /*
          * =========================
@@ -25,15 +29,17 @@ public class ChatPanel extends JPanel {
          * =========================
          */
 
-        chatArea =
-                new JTextArea();
-
+        chatArea = new JTextArea();
         chatArea.setEditable(false);
-
         chatArea.setLineWrap(true);
+        chatArea.setWrapStyleWord(true);
+        chatArea.setBackground(ColorTheme.WINDOW_BACKGROUND);
+        chatArea.setForeground(ColorTheme.PRIMARY_TEXT);
+        chatArea.setFont(FontManager.SMALL_FONT);
 
-        JScrollPane scrollPane =
-                new JScrollPane(chatArea);
+        JScrollPane scrollPane = new JScrollPane(chatArea);
+        scrollPane.getViewport().setBackground(ColorTheme.WINDOW_BACKGROUND);
+        scrollPane.setBorder(BorderFactory.createLineBorder(ColorTheme.BUTTON_BACKGROUND));
 
         /*
          * =========================
@@ -41,26 +47,20 @@ public class ChatPanel extends JPanel {
          * =========================
          */
 
-        JPanel inputPanel =
-                new JPanel(
-                        new BorderLayout()
-                );
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        inputPanel.setBackground(ColorTheme.PANEL_BACKGROUND);
 
-        messageField =
-                new JTextField();
+        messageField = new JTextField();
+        messageField.setBackground(ColorTheme.WINDOW_BACKGROUND);
+        messageField.setForeground(ColorTheme.PRIMARY_TEXT);
+        messageField.setCaretColor(ColorTheme.PRIMARY_TEXT);
+        messageField.setFont(FontManager.SMALL_FONT);
 
-        sendButton =
-                new JButton("Send");
+        sendButton = new JButton("Send");
+        ThemeManager.applyButtonTheme(sendButton);
 
-        inputPanel.add(
-                messageField,
-                BorderLayout.CENTER
-        );
-
-        inputPanel.add(
-                sendButton,
-                BorderLayout.EAST
-        );
+        inputPanel.add(messageField, BorderLayout.CENTER);
+        inputPanel.add(sendButton,   BorderLayout.EAST);
 
         /*
          * =========================
@@ -68,9 +68,8 @@ public class ChatPanel extends JPanel {
          * =========================
          */
 
-        add(scrollPane, BorderLayout.CENTER);
-
-        add(inputPanel, BorderLayout.SOUTH);
+        add(scrollPane,  BorderLayout.CENTER);
+        add(inputPanel,  BorderLayout.SOUTH);
     }
 
     /*
@@ -79,10 +78,7 @@ public class ChatPanel extends JPanel {
      * =========================
      */
 
-    public void appendMessage(
-            String message
-    ) {
-
+    public void appendMessage(String message) {
         chatArea.append(message + "\n");
     }
 
@@ -93,12 +89,10 @@ public class ChatPanel extends JPanel {
      */
 
     public JTextField getMessageField() {
-
         return messageField;
     }
 
     public JButton getSendButton() {
-
         return sendButton;
     }
 }

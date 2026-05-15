@@ -52,9 +52,8 @@ public class MoveFormatter {
         Piece piece =
                 move.getMovedPiece();
 
-        String pieceName =
-                piece.getClass()
-                        .getSimpleName();
+        // Lấy tên tiếng Việt thay vì lấy tên Class của Java
+        String pieceName = getVietnamesePieceName(piece.getSymbol());
 
         String from =
                 PositionConverter.toChessNotation(
@@ -71,6 +70,23 @@ public class MoveFormatter {
                 + from
                 + " -> "
                 + to;
+    }
+
+    /*
+     * Hàm phụ trợ để chuyển đổi ký hiệu quân cờ sang tên tiếng Việt
+     */
+    private static String getVietnamesePieceName(String symbol) {
+        if (symbol == null) return "Quân cờ";
+
+        return switch (symbol.toUpperCase()) {
+            case "P" -> "Tốt";
+            case "R" -> "Xe";
+            case "N" -> "Mã";
+            case "B" -> "Tượng";
+            case "Q" -> "Hậu";
+            case "K" -> "Vua";
+            default -> symbol;
+        };
     }
 
     /*
@@ -93,22 +109,22 @@ public class MoveFormatter {
         return switch (moveType) {
 
             case NORMAL ->
-                    "Normal Move";
+                    "Nước đi thường";
 
             case CAPTURE ->
-                    "Capture";
+                    "Bắt quân";
 
             case CASTLING ->
-                    "Castling";
+                    "Nhập thành";
 
             case PROMOTION ->
-                    "Promotion";
+                    "Phong cấp";
 
             case EN_PASSANT ->
-                    "En Passant";
+                    "Bắt tốt qua đường";
 
             default ->
-                    "Unknown";
+                    "Không xác định";
         };
     }
 

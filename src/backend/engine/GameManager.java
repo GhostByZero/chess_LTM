@@ -214,51 +214,32 @@ public class GameManager {
      * =========================
      */
 
-    /**
-     * Hoàn tác nước đi gần nhất và quay lại lượt của bên vừa đi.
-     *
-     * @return MoveRecord của nước vừa undo, hoặc null nếu history trống.
-     */
+    public boolean hasMoveHistory() {
+        return moveManager.getHistory() != null && !moveManager.getHistory().isEmpty();
+    }
+
+    // Hàm thực hiện Undo (Bạn giữ nguyên logic xử lý lượt đi và checkmate như bạn đã viết)
     public MoveRecord undoLastMove() {
-        if (moveManager.getHistory().isEmpty()) {
+        if (!hasMoveHistory()) {
             return null;
         }
 
         MoveRecord record = moveManager.undoMove();
+        if (record == null) return null;
 
-        if (record == null) {
-            return null;
-        }
-
-        /*
-         * Quay lại lượt của bên vừa đi.
-         */
         turnManager.switchTurn();
 
-        /*
-         * Nếu ván cờ đã kết thúc (checkmate / stalemate / draw trước đó đã gọi endGame()),
-         * phải reset gameOver và matchState trước khi tái tính — nếu không
-         * processMove() sẽ block mọi nước đi tiếp theo sau undo.
-         */
         if (gameState.isGameOver()) {
             gameState.setGameOver(false);
             gameState.setWinner(null);
             gameState.setMatchState(MatchState.PLAYING);
         }
 
-        /*
-         * Xóa vị trí cuối cùng khỏi bộ đếm threefold repetition.
-         * Nếu count về 0, remove key luôn để không chiếm bộ nhớ.
-         */
         chessEngine.getDrawDetector().removeLastPosition(
                 (gameState.getCurrentTurn() == TurnState.WHITE_TURN)
                         ? PieceColor.WHITE : PieceColor.BLACK
         );
 
-        /*
-         * Tái tính check / checkmate / stalemate cho bên vừa được hoàn lại lượt
-         * dựa trên trạng thái board thực — không reset cứng về false.
-         */
         PieceColor restoredColor = (gameState.getCurrentTurn() == TurnState.WHITE_TURN)
                 ? PieceColor.WHITE
                 : PieceColor.BLACK;
@@ -266,4 +247,5 @@ public class GameManager {
 
         return record;
     }
+
 }

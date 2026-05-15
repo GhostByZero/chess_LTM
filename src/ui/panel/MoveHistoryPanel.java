@@ -1,5 +1,9 @@
 package ui.panel;
 
+import ui.theme.ColorTheme;
+import ui.theme.FontManager;
+import ui.theme.ThemeManager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,30 +17,30 @@ public class MoveHistoryPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        setPreferredSize(
-                new Dimension(220, 0)
-        );
+        setPreferredSize(new Dimension(220, 0));
 
-        JLabel title =
-                new JLabel("Move History");
+        ThemeManager.applyPanelTheme(this);
 
-        title.setHorizontalAlignment(
-                SwingConstants.CENTER
-        );
+        JLabel title = new JLabel("Move History");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setForeground(ColorTheme.PRIMARY_TEXT);
+        title.setFont(FontManager.NORMAL_FONT);
 
-        moveModel =
-                new DefaultListModel<>();
+        moveModel = new DefaultListModel<>();
 
-        moveList =
-                new JList<>(moveModel);
+        moveList = new JList<>(moveModel);
+        moveList.setBackground(ColorTheme.PANEL_BACKGROUND);
+        moveList.setForeground(ColorTheme.PRIMARY_TEXT);
+        moveList.setFont(FontManager.SMALL_FONT);
 
-        JScrollPane scrollPane =
-                new JScrollPane(moveList);
+        JScrollPane scrollPane = new JScrollPane(moveList);
+        scrollPane.getViewport().setBackground(ColorTheme.PANEL_BACKGROUND);
+        scrollPane.setBorder(BorderFactory.createLineBorder(ColorTheme.BUTTON_BACKGROUND));
 
-        add(title, BorderLayout.NORTH);
-
+        add(title,      BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
     }
+
 
     /*
      * =========================
@@ -44,23 +48,19 @@ public class MoveHistoryPanel extends JPanel {
      * =========================
      */
 
-    public void addMove(
-            String move
-    ) {
-
+    public void addMove(String move) {
         moveModel.addElement(move);
 
-        /*
-         * Tu dong cuon xuong nuoc di moi nhat.
-         * ensureIndexIsVisible() dam bao item cuoi luon hien thi
-         * ma khong lam mat scroll position neu nguoi choi dang cuon len xem lich su.
-         */
         int lastIndex = moveModel.getSize() - 1;
         moveList.ensureIndexIsVisible(lastIndex);
     }
 
     public void clearHistory() {
-
         moveModel.clear();
+    }
+    public void removeLastMove() {
+        if (!moveModel.isEmpty()) {
+            moveModel.remove(moveModel.getSize() - 1);
+        }
     }
 }

@@ -36,20 +36,19 @@ public class PauseMenu extends JPanel {
         gbc.gridx = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        JLabel titleLabel = new JLabel("PAUSED");
+        // 1. Đổi tiêu đề thành MENU
+        JLabel titleLabel = new JLabel("MENU");
 
         titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
-
         titleLabel.setForeground(Color.WHITE);
 
-        resumeButton = createButton("Resume");
+        // 2. Việt hóa tên các nút
+        resumeButton    = createButton("Tiếp tục");
+        surrenderButton = createButton("Bỏ cuộc");
+        exitButton      = createButton("Rời phòng");
+        settingsButton  = createButton("Cài đặt kích thước");
 
-        settingsButton = createButton("Settings");
-
-        surrenderButton = createButton("Surrender");
-
-        exitButton = createButton("Exit Match");
-
+        // 3. Sắp xếp lại thứ tự hiển thị: Tiếp tục -> Bỏ cuộc -> Rời phòng -> Cài đặt
         gbc.gridy = 0;
         add(titleLabel, gbc);
 
@@ -57,13 +56,13 @@ public class PauseMenu extends JPanel {
         add(resumeButton, gbc);
 
         gbc.gridy = 2;
-        add(settingsButton, gbc);
-
-        gbc.gridy = 3;
         add(surrenderButton, gbc);
 
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         add(exitButton, gbc);
+
+        gbc.gridy = 4;
+        add(settingsButton, gbc);
     }
 
     /*
@@ -75,7 +74,6 @@ public class PauseMenu extends JPanel {
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(240, 50));
-
         button.setFocusPainted(false);
         return button;
     }

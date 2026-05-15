@@ -7,8 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BoardPanel extends JPanel {
-    private final CellPanel[][]  cells;
+    private final CellPanel[][] cells;
     private final Board board;
+
+    // THÊM MỚI: Lưu vị trí nước đi cuối cùng để tô sáng
+    private Position lastFrom = null;
+    private Position lastTo   = null;
+
     public BoardPanel(Board board) {
         this.board = board;
         this.cells = new CellPanel[8][8];
@@ -24,8 +29,10 @@ public class BoardPanel extends JPanel {
     private void initalizeBoard() {
         setLayout(new GridLayout(8, 8));
         setPreferredSize(new Dimension(640, 640));
-        createCells(); drawBoard();
+        createCells();
+        drawBoard();
     }
+
     private void createCells() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -38,17 +45,35 @@ public class BoardPanel extends JPanel {
 
     /*
      * =========================
-     * Draw Board
+     * Draw & Highlight
      * =========================
      */
+
+    // THÊM MỚI: Hàm để GameWindowController gọi sau mỗi nước đi
+    public void highlightLastMove(Position from, Position to) {
+        this.lastFrom = from;
+        this.lastTo   = to;
+        drawBoard(); // Vẽ lại bàn cờ để màu sắc mới được áp dụng
+    }
 
     public void drawBoard() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                cells[row][col].drawCell(board);
+                CellPanel cell = cells[row][col];
+                Position pos = new Position(row, col);
+
+                // Reset màu ô cờ về mặc định trước khi vẽ
+                cell.drawCell(board);
+
+                // Nếu ô này là điểm đi hoặc điểm đến của nước cờ cuối cùng -> Tô màu vàng nhạt
+                if (pos.equals(lastFrom) || pos.equals(lastTo)) {
+                    // Bạn có thể chỉnh mã màu (Red, Green, Blue, Alpha) tùy ý
+                    cell.setBackground(new Color(255, 255, 150, 180));
+                }
             }
         }
-        repaint(); revalidate();
+        repaint();
+        revalidate();
     }
 
     /*

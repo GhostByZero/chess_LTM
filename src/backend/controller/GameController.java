@@ -26,6 +26,17 @@ public class GameController {
         return gameManager.processMove(move);
     }
 
+    //undo
+    // ĐOẠN MỚI NÊN DÙNG
+    public boolean undoLastMove() {
+        // Gọi hàm kiểm tra đã thêm ở GameManager
+        if (gameManager.hasMoveHistory()) {
+            // Thực hiện hoàn tác và trả về true nếu thành công
+            return gameManager.undoLastMove() != null;
+        }
+        return false;
+    }
+
     /*
      * =========================
      * Surrender

@@ -1,13 +1,18 @@
 package ui.window;
 
+import ui.theme.ColorTheme;
+import ui.theme.FontManager;
+import ui.theme.ThemeManager;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    private static final int WINDOW_WIDTH = 900;
+    private static final int WINDOW_WIDTH  = 900;
     private static final int WINDOW_HEIGHT = 600;
 
     private JButton playButton;
+    private JButton playBotButton; // 1. Khai báo thêm biến này
     private JButton settingsButton;
     private JButton exitButton;
 
@@ -24,53 +29,47 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setResizable(false);
+        getContentPane().setBackground(ColorTheme.WINDOW_BACKGROUND);
     }
 
     private void initializeComponents() {
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridBagLayout());
-
-        mainPanel.setBackground(new Color(30, 30, 30));
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(ColorTheme.WINDOW_BACKGROUND);
 
         GridBagConstraints gbc = new GridBagConstraints();
-
+        gbc.gridx  = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill   = GridBagConstraints.HORIZONTAL;
 
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JLabel titleLabel = new JLabel("MULTIPLAYER CHESS");
+        ThemeManager.applyTitleTheme(titleLabel);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        playButton = createButton("Play Multiplayer");
-
+        // 2. Khởi tạo riêng biệt từng nút
+        playButton     = createButton("Play Multiplayer");
+        playBotButton  = createButton("Play vs Computer");
         settingsButton = createButton("Settings");
+        exitButton     = createButton("Exit");
 
-        exitButton = createButton("Exit");
-
-        gbc.gridy = 0;
-        mainPanel.add(playButton, gbc);
-
-        gbc.gridy = 1;
-        mainPanel.add(settingsButton, gbc);
-
-        gbc.gridy = 2;
-        mainPanel.add(exitButton, gbc);
+        // 3. Thêm các nút vào giao diện theo thứ tự từ trên xuống
+        gbc.gridy = 0; mainPanel.add(titleLabel,    gbc);
+        gbc.gridy = 1; mainPanel.add(playButton,    gbc);
+        gbc.gridy = 2; mainPanel.add(playBotButton, gbc); // Thêm nút Bot vào đây
+        gbc.gridy = 3; mainPanel.add(settingsButton, gbc);
+        gbc.gridy = 4; mainPanel.add(exitButton,    gbc);
 
         add(mainPanel, BorderLayout.CENTER);
     }
+
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(250, 50));
-        button.setFocusPainted(false);
+        ThemeManager.applyButtonTheme(button);
         return button;
     }
 
-    public JButton getPlayButton() {
-        return playButton;
-    }
-
-    public JButton getSettingsButton() {
-        return settingsButton;
-    }
-
-    public JButton getExitButton() {
-        return exitButton;
-    }
+    public JButton getPlayButton()     { return playButton;     }
+    public JButton getPlayBotButton()  { return playBotButton;  } // Hết lỗi đỏ ở đây
+    public JButton getSettingsButton() { return settingsButton; }
+    public JButton getExitButton()     { return exitButton;     }
 }
