@@ -13,6 +13,12 @@ import ui.dialog.SurrenderDialog;
 import ui.input.BoardMouseListener;
 import ui.input.InputHandler;
 import ui.menu.PauseMenu;
+<<<<<<< HEAD
+=======
+
+import ui.panel.ChatPanel;
+import ui.panel.GameControlPanel;
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
 import ui.panel.MoveHistoryPanel;
 import ui.panel.PlayerInfoPanel;
 import ui.panel.StatusPanel;
@@ -93,6 +99,7 @@ public class GameWindow extends JFrame {
     private MoveHistoryPanel moveHistoryPanel;
     private StatusPanel      statusPanel;
     private TimerPanel       timerPanel;
+    private GameControlPanel gameControlPanel;
 
     /*
      * Chat: input ở LEFT, hiển thị tin nhắn ở CENTER bên dưới bàn cờ
@@ -694,6 +701,69 @@ public class GameWindow extends JFrame {
      * Dialogs init
      * =========================
      */
+<<<<<<< HEAD
+=======
+
+    private void initializeGameScreen() {
+        gameScreen = new JPanel(new BorderLayout());
+
+        boardPanel = new BoardPanel(gameManager.getBoard());
+
+        JPanel topPanel   = new JPanel(new BorderLayout());
+        JPanel leftPanel  = new JPanel(new BorderLayout());
+        JPanel rightPanel = new JPanel(new BorderLayout());
+
+        gameScreen.add(topPanel,   BorderLayout.NORTH);
+        gameScreen.add(leftPanel,  BorderLayout.WEST);
+        gameScreen.add(rightPanel, BorderLayout.EAST);
+        gameScreen.add(boardPanel, BorderLayout.CENTER);
+    }
+
+    /*
+     * =========================
+     * Panels Initialization
+     * =========================
+     */
+
+    private void initializePanels() {
+        chatPanel        = new ChatPanel();
+        moveHistoryPanel = new MoveHistoryPanel();
+        playerInfoPanel  = new PlayerInfoPanel();
+        statusPanel      = new StatusPanel();
+        timerPanel       = new TimerPanel();
+        gameControlPanel = new GameControlPanel(timerPanel);
+
+        gameTimer = new GameTimer(GameConstants.DEFAULT_MATCH_TIME);
+
+        attachPanelsToGameScreen();
+    }
+
+    private void attachPanelsToGameScreen() {
+        BorderLayout layout = (BorderLayout) gameScreen.getLayout();
+
+        JPanel topPanel    = (JPanel) layout.getLayoutComponent(BorderLayout.NORTH);
+        JPanel leftPanel   = (JPanel) layout.getLayoutComponent(BorderLayout.WEST);
+        JPanel rightPanel  = (JPanel) layout.getLayoutComponent(BorderLayout.EAST);
+
+        // Status bar o tren board
+        topPanel.add(statusPanel, BorderLayout.CENTER);
+
+        // Trai: thong tin nguoi choi + lich su nuoc di
+        leftPanel.add(playerInfoPanel,  BorderLayout.NORTH);
+        leftPanel.add(moveHistoryPanel, BorderLayout.CENTER);
+        leftPanel.add(chatPanel,        BorderLayout.SOUTH);
+
+        // Phai: timer ca hai ben + nut Pause / Surrender / Exit
+        rightPanel.add(gameControlPanel, BorderLayout.CENTER);
+    }
+
+    /*
+     * =========================
+     * Dialogs Initialization
+     * =========================
+     */
+
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
     private void initializeDialogs() {
         disconnectDialog = new DisconnectDialog(this);
         leaveRoomDialog  = new LeaveRoomDialog(this);
@@ -808,6 +878,7 @@ public class GameWindow extends JFrame {
     public GameClient        getGameClient()       { return gameClient;       }
     public String            getMyColor()          { return myColor;          }
 
+<<<<<<< HEAD
     // Chat getters — dùng bởi GameWindowController
     public JTextField getChatInputField()  { return chatInputField;  }
     public JButton    getChatSendButton()  { return chatSendButton;  }
@@ -819,3 +890,19 @@ public class GameWindow extends JFrame {
         return undoButton;
     }
 }
+=======
+    public GameController    getGameController()    { return gameController;    }
+    public GameManager       getGameManager()        { return gameManager;       }
+    public BoardPanel        getBoardPanel()         { return boardPanel;        }
+    public ChatPanel         getChatPanel()          { return chatPanel;         }
+    public MoveHistoryPanel  getMoveHistoryPanel()   { return moveHistoryPanel;  }
+    public PlayerInfoPanel   getPlayerInfoPanel()    { return playerInfoPanel;   }
+    public StatusPanel       getStatusPanel()        { return statusPanel;       }
+    public TimerPanel        getTimerPanel()         { return timerPanel;        }
+    public GameControlPanel  getGameControlPanel()   { return gameControlPanel;  }
+    public GameTimer         getGameTimer()          { return gameTimer;         }
+    public PauseMenu         getPauseMenu()          { return pauseMenu;         }
+    public InputHandler      getInputHandler()       { return inputHandler;      }
+    public MainWindow        getMainWindow()         { return mainWindow;        }
+}
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213

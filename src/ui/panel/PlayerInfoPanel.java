@@ -3,6 +3,10 @@ package ui.panel;
 import backend.pieces.PieceColor;
 import ui.theme.FontManager;
 
+import ui.theme.ColorTheme;
+import ui.theme.FontManager;
+import ui.theme.ThemeManager;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -20,6 +24,7 @@ public class PlayerInfoPanel extends JPanel {
     private final JLabel whiteStatus;
     private final JLabel blackStatus;
 
+<<<<<<< HEAD
     public PlayerInfoPanel(String myColor) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
@@ -48,12 +53,32 @@ public class PlayerInfoPanel extends JPanel {
             add(buildPlayerSection("W", whiteNameLabel, "Quân trắng", true, whiteBadge, whiteStatus));
         }
         add(buildDivider());
+=======
+        setLayout(new GridLayout(3, 1));
+
+        setPreferredSize(new Dimension(250, 120));
+
+        ThemeManager.applyPanelTheme(this);
+
+        whitePlayerLabel = new JLabel("White: Player 1");
+        blackPlayerLabel = new JLabel("Black: Player 2");
+        turnLabel        = new JLabel("Turn: WHITE");
+
+        ThemeManager.applyTextTheme(whitePlayerLabel);
+        ThemeManager.applyTextTheme(blackPlayerLabel);
+        ThemeManager.applyTextTheme(turnLabel);
+
+        add(whitePlayerLabel);
+        add(blackPlayerLabel);
+        add(turnLabel);
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
     }
 
     public void setWhitePlayerName(String name) { whiteNameLabel.setText(name); }
     public void setBlackPlayerName(String name) { blackNameLabel.setText(name); }
 
     public void updateTurn(PieceColor color) {
+<<<<<<< HEAD
         if (color == PieceColor.WHITE) {
             whiteBadge.setVisible(true);
             blackBadge.setVisible(false);
@@ -65,12 +90,16 @@ public class PlayerInfoPanel extends JPanel {
             whiteStatus.setText("Online · Chờ tới lượt...");
             blackStatus.setText("Online · Đang đi...");
         }
+=======
+        turnLabel.setText("Turn: " + color);
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
     }
 
     // ==========================================
     // CÁC HÀM XÂY DỰNG GIAO DIỆN CON
     // ==========================================
 
+<<<<<<< HEAD
     private JLabel createNameLabel(String text) {
         JLabel lbl = new JLabel(text);
         lbl.setFont(FontManager.SMALL_FONT != null ? FontManager.SMALL_FONT.deriveFont(Font.BOLD, 12f) : new Font("Arial", Font.BOLD, 12));
@@ -160,5 +189,13 @@ public class PlayerInfoPanel extends JPanel {
         sep.setBackground(new Color(58, 58, 58));
         sep.setMaximumSize(new Dimension(SIDE_WIDTH, 1));
         return sep;
+=======
+    public void setWhitePlayerName(String name) {
+        whitePlayerLabel.setText("White: " + name);
+    }
+
+    public void setBlackPlayerName(String name) {
+        blackPlayerLabel.setText("Black: " + name);
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
     }
 }

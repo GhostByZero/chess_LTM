@@ -45,6 +45,7 @@ public class MainWindow extends JFrame {
         ThemeManager.applyTitleTheme(titleLabel);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+<<<<<<< HEAD
         // 2. Khởi tạo riêng biệt từng nút
         playButton     = createButton("Play Multiplayer");
         playBotButton  = createButton("Play vs Computer");
@@ -57,6 +58,16 @@ public class MainWindow extends JFrame {
         gbc.gridy = 2; mainPanel.add(playBotButton, gbc); // Thêm nút Bot vào đây
         gbc.gridy = 3; mainPanel.add(settingsButton, gbc);
         gbc.gridy = 4; mainPanel.add(exitButton,    gbc);
+=======
+        playButton     = createButton("Play Multiplayer");
+        settingsButton = createButton("Settings");
+        exitButton     = createButton("Exit");
+
+        gbc.gridy = 0; mainPanel.add(titleLabel,    gbc);
+        gbc.gridy = 1; mainPanel.add(playButton,    gbc);
+        gbc.gridy = 2; mainPanel.add(settingsButton, gbc);
+        gbc.gridy = 3; mainPanel.add(exitButton,    gbc);
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
 
         add(mainPanel, BorderLayout.CENTER);
     }
@@ -69,7 +80,13 @@ public class MainWindow extends JFrame {
     }
 
     public JButton getPlayButton()     { return playButton;     }
+<<<<<<< HEAD
     public JButton getPlayBotButton()  { return playBotButton;  } // Hết lỗi đỏ ở đây
     public JButton getSettingsButton() { return settingsButton; }
     public JButton getExitButton()     { return exitButton;     }
 }
+=======
+    public JButton getSettingsButton() { return settingsButton; }
+    public JButton getExitButton()     { return exitButton;     }
+}
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213

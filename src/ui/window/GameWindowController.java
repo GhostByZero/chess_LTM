@@ -52,7 +52,16 @@ public class GameWindowController {
         this.gameClient     = null;
         this.myColor        = "WHITE";
 
+<<<<<<< HEAD
         attachAll();
+=======
+        attachPauseMenuListeners();
+        attachControlPanelListeners();   // ← nut Pause/Surrender/Exit tren game screen
+        attachChatListeners();
+        attachKeyboardShortcuts();
+        attachMoveCallback();
+        initializeTimer();
+>>>>>>> aeb8f54727ad993b994f47e75c9ecfb1e8f78213
     }
 
     /*
@@ -315,6 +324,21 @@ public class GameWindowController {
      * =========================
      */
     private void attachControlPanelListeners() {
+    }
+
+    /*
+     * =========================
+     * GameControlPanel listeners
+     * 3 nut truc tiep tren game screen (khong can mo PauseMenu truoc)
+     * =========================
+     */
+
+    private void attachControlPanelListeners() {
+        ui.panel.GameControlPanel cp = gameWindow.getGameControlPanel();
+
+        cp.getPauseButton()    .addActionListener(e -> togglePause());
+        cp.getSurrenderButton().addActionListener(e -> onSurrender());
+        cp.getExitButton()     .addActionListener(e -> onExitMatch());
     }
 
     /*
